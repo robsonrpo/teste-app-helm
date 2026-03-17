@@ -1,0 +1,5 @@
+apiVersion: v2
+name: helm-teste-app
+description: helm-teste-app
+type: application
+version: 0.1.0
