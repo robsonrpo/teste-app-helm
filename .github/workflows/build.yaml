@@ -27,9 +27,10 @@ jobs:
       teste: ${{ steps.listar-juntas.outputs.teste }}
 
     steps:
-    - name: Run Tests
+    - env:
+        OUTPUT1: ${{needs.build.outputs.teste}}
       run: |
-        LIST=${{ fromJSON(needs.build.outputs.teste) }}
+        LIST=${{ fromJSON(env.OUTPUT1) }}
         echo "First item: ${LIST[0]}"
 
 
