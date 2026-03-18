@@ -18,7 +18,7 @@ jobs:
 
         JSON_STRING=$(echo ${commit_message##*:} | tr ',' '\n' | jq -R . | jq -s .)
         echo $JSON_STRING
-        echo "list_json=\'$JSON_STRING"\'>> $GITHUB_OUTPUT
+        echo "list_json=\'$JSON_STRING\'">> $GITHUB_OUTPUT
 
     - name: Run Tests
       run: |
