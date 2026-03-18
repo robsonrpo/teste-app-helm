@@ -14,13 +14,15 @@ jobs:
     steps:
     - id: listar-juntas
       run: |
+        set -x
         commit_message=$(echo "${{ github.event.head_commit.message }}" | grep "\[ambientes\]")
         echo ${commit_message##*:}
 
         JSON_STRING=$(echo ${commit_message##*:} | tr ',' '\n' | jq -R . | jq -s .)
         echo JSON_STRING2=\'$JSON_STRING\'
-        echo "teste=\'$JSON_STRING\'">> "$GITHUB_OUTPUT"
+        echo "teste=JSON_STRING2">> "$GITHUB_OUTPUT"
         echo "test=world" >> "$GITHUB_OUTPUT"
+        echo "$GITHUB_OUTPUT"
 
   build2:
 
