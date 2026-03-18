@@ -30,7 +30,7 @@ jobs:
     - env:
         OUTPUT1: ${{needs.build.outputs.teste}}
       run: |
-        LIST=${{ fromJSON(OUTPUT1) }}
+        LIST=${{ fromJSON(env.OUTPUT1) }}
         echo "$OUTPUT1"
         echo ${LIST}
         #echo "First item: ${LIST[0]}"
