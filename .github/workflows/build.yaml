@@ -7,8 +7,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    # outputs:
-    #   teste: ${{ steps.listar-juntas.outputs.teste }}
+    outputs:
+      teste: ${{ steps.listar-juntas.outputs.teste }}
 
     steps:
     - id: listar-juntas
@@ -20,9 +20,16 @@ jobs:
         echo JSON_STRINGg=\'$JSON_STRING\'
         echo "teste=$JSON_STRINGg">> $GITHUB_OUTPUT
 
+  build2:
+
+    runs-on: ubuntu-latest
+    outputs:
+      teste: ${{ steps.listar-juntas.outputs.teste }}
+
+    steps:
     - name: Run Tests
       run: |
-        LIST=${{ fromJSON(steps.listar-juntas.outputs.teste) }}
+        LIST=${{ fromJSON(needs.build.outputs.teste) }}
         echo "First item: ${LIST[0]}"
 
 
