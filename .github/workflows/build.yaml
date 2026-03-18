@@ -16,8 +16,9 @@ jobs:
         commit_message=$(echo "${{ github.event.head_commit.message }}" | grep "\[ambientes\]")
         echo ${commit_message##*:}
 
-        # JSON_STRING=$(echo ${commit_message##*:} | tr ',' '\n' | jq -R . | jq -s .)
-        # echo "list_json=$JSON_STRING" >> $GITHUB_OUTPUT
+        JSON_STRING=$(echo ${commit_message##*:} | tr ',' '\n' | jq -R . | jq -s .)
+        echo $JSON_STRING
+        #echo "list_json=$JSON_STRING" >> $GITHUB_OUTPUT
 
     # - name: Run Tests
     #   run: |
