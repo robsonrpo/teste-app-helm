@@ -11,7 +11,7 @@ jobs:
       lista_juntas: ${{ steps.split.outputs.list_json }}
 
     steps:
-    - name: listar-juntas
+    - id: listar-juntas
       run: |
         commit_message=$(echo "${{ github.event.head_commit.message }}" | grep "\[ambientes\]")
         echo ${commit_message##*:}
