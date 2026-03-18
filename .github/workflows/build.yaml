@@ -11,7 +11,7 @@ jobs:
       lista_juntas: ${{ steps.split.outputs.list_json }}
 
     steps:
-    - name: listar juntas
+    - name: listar-juntas
       run: |
         commit_message=$(echo "${{ github.event.head_commit.message }}" | grep "\[ambientes\]")
         echo ${commit_message##*:}
@@ -22,7 +22,7 @@ jobs:
 
     - name: Run Tests
       run: |
-        LIST=${{ fromJSON(needs.split-string.outputs.lista_juntas) }}
+        LIST=${{ fromJSON(needs.listar-juntas.outputs.lista_juntas) }}
         echo "First item: ${LIST[0]}"
 
 
