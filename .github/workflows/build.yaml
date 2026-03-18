@@ -22,7 +22,7 @@ jobs:
 
     - name: Run Tests
       run: |
-        LIST=${{ fromJSON(needs.listar-juntas.outputs.lista_juntas) }}
+        LIST=${{ fromJSON(steps.listar-juntas.outputs.lista_juntas) }}
         echo "First item: ${LIST[0]}"
 
 
