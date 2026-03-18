@@ -23,9 +23,7 @@ jobs:
   build2:
 
     runs-on: ubuntu-latest
-    outputs:
-      teste: ${{ steps.listar-juntas.outputs.teste }}
-
+    needs: build
     steps:
     - env:
         OUTPUT1: ${{needs.build.outputs.teste}}
