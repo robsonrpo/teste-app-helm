@@ -1,0 +1,29 @@
+name: Teste CI
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    outputs:
+      lista_juntas: ${{ steps.split.outputs.list_json }}
+
+    steps:
+    - name: listar juntas
+      run: |
+        commit_message=$(echo "${{ github.event.head_commit.message }}" | grep "\[ambientes\]")
+        JSON_STRING=$(echo ${commit_message##*:} | tr ',' '\n' | jq -R . | jq -s .)
+        echo "list_json=$JSON_STRING" >> $GITHUB_OUTPUT
+
+    - name: Run Tests
+      run: |
+        LIST=${{ fromJSON(needs.split-string.outputs.lista_juntas) }}
+        echo "First item: ${LIST[0]}"
+
+
