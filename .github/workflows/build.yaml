@@ -28,7 +28,8 @@ jobs:
     - env:
         OUTPUT1: ${{needs.build.outputs.output1}}
       run: |
-        echo "$OUTPUT1"
+        teste="$OUTPUT1"
+        echo "teste=$teste"
 
 
 
