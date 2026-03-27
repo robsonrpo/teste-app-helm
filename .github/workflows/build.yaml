@@ -9,11 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       lista-juntas: ${{ steps.listar-juntas.outputs.lista-juntas }}
-      sha_short: ${{ steps.listar-juntas.outputs.sha_short }}
-      branch: ${{ steps.listar-juntas.outputs.branch }}
+      sha_short: ${{ steps.job_info.outputs.sha_short }}
+      branch: ${{ steps.job_info.outputs.branch }}
 
     steps:
     - id: listar-juntas
+      name: Listar juntas
       run: |
         commit_message=$(echo "${{ github.event.head_commit.message }}" | grep "\[ambientes\]")
         echo ${commit_message##*:}
@@ -23,14 +24,8 @@ jobs:
     - name: job_info
       id: job_info
       run: |
-        set -x
-
         echo "sha_short=${GITHUB_SHA:0:7}" >> "$GITHUB_OUTPUT"
         echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_OUTPUT"
-        echo "$sha_short"
-        echo "$branch"
-        echo "$GITHUB_OUTPUT"
-
     
   build:
     runs-on: ubuntu-latest
