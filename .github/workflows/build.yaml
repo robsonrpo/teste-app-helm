@@ -4,12 +4,12 @@ on: [push]
 
 jobs:
 
-  build:
+  job_config:
 
     runs-on: ubuntu-latest
     outputs:
-      output1: ${{ steps.listar-juntas.outputs.teste }}
-      output2: ${{ steps.listar-juntas.outputs.test }}
+      lista-juntas: ${{ steps.listar-juntas.outputs.lista-juntas }}
+      short_sha: ${{ steps.listar-juntas.outputs.short_sha }}
 
     steps:
     - id: listar-juntas
@@ -18,19 +18,32 @@ jobs:
         commit_message=$(echo "${{ github.event.head_commit.message }}" | grep "\[ambientes\]")
         echo ${commit_message##*:}
         JSON_STRING=$(echo ${commit_message##*:} | tr ',' '\n' | jq -R . | jq -c -s .)
-         
-        echo "teste=$JSON_STRING" >> "$GITHUB_OUTPUT"
-        echo "test=world" >> "$GITHUB_OUTPUT"
-        echo "$GITHUB_OUTPUT"
+        echo "lista-juntas=$JSON_STRING" >> "$GITHUB_OUTPUT"
 
-  job2:
+    - name: Calculate short SHA
+      id: calc_sha
+      run: |
+        echo "short_sha=${{ github.sha::0:7 }}" >> "$GITHUB_OUTPUT"
+    
+  build:
     runs-on: ubuntu-latest
-    needs: build
+    needs: job_config
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+      - name: teste
+        run: |
+          echo "Workspace: ${{ github.workspace }}"
+
+  config_commit:
+    runs-on: ubuntu-latest
+    needs: [job_config, build]
+    env:
+      SHORT_SHA: ${{ needs.job_config.outputs.short_sha }}
     strategy:
-      # Use fromJSON to parse the job output into an array for the matrix
       matrix:
-        item: ${{ fromJSON(needs.build.outputs.output1) }}
+        item: ${{ fromJSON(needs.job_config.outputs.lista-juntas) }}
     steps:
       - name: Process item
         run: |
-          echo "Processing item: ${{ matrix.item }}"
+          echo "Processing item: ${{ matrix.item }}, SHORT_SHA: $SHORT_SHA"
