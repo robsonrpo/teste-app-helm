@@ -49,4 +49,6 @@ jobs:
     steps:
       - name: Process item
         run: |
-          echo "Processing item: ${{ matrix.item }}, SHORT_SHA: $SHORT_SHA, BRANCH: $BRANCH"
+          echo "Processing item: ${{ matrix.item }}"
+          echo "SHORT_SHA: ${{ SHORT_SHA }}"
+          echo "BRANCH: ${{ BRANCH }}"
